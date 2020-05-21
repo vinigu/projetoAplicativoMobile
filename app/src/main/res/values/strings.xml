@@ -1,3 +1,10 @@
 <resources>
     <string name="app_name">projetoFinal</string>
+    <string name="sensor_gravidade">SENSOR GRAVIDADE</string>
+    <string name="localizacao">LOCALIZACAO</string>
+    <string name="sensor_acelerometro">SENSOR ACELEROMETRO</string>
+    <string name="sensor_proximidade">SENSOR PROXIMIDADE</string>
+    <string name="sensor_luminosidade">SENSOR LUMINOSIDADE</string>
+    <string name="listar_sensores">Listar Sensores</string>
+    <string name="umidade">UMIDADE E TEMPERATURA</string>
 </resources>

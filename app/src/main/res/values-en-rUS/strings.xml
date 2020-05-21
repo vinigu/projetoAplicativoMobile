@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">projetoFinal</string>
+    <string name="sensor_gravidade">GRAVITY SENSOR</string>
+    <string name="localizacao">LOCATION</string>
+    <string name="sensor_luminosidade">"LUMINOSITY SENSOR "</string>
+    <string name="listar_sensores">SENSORS LIST</string>
+    <string name="sensor_acelerometro">"ACCELEROMETER SENSOR "</string>
+    <string name="sensor_proximidade">"PROXIMITY SENSOR "</string>
+    <string name="umidade">"HUMIDITY AND TEMPERATURE "</string>
+</resources>
