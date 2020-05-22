@@ -1,10 +1,12 @@
 <resources>
     <string name="app_name">projetoFinal</string>
-    <string name="sensor_gravidade">SENSOR GRAVIDADE</string>
-    <string name="localizacao">LOCALIZACAO</string>
-    <string name="sensor_acelerometro">SENSOR ACELEROMETRO</string>
-    <string name="sensor_proximidade">SENSOR PROXIMIDADE</string>
-    <string name="sensor_luminosidade">SENSOR LUMINOSIDADE</string>
-    <string name="listar_sensores">Listar Sensores</string>
-    <string name="umidade">UMIDADE E TEMPERATURA</string>
+    <string name="latitude">LATITUDE: </string>
+    <string name="logitude">LONGITUDE: </string>
+    <string name="sensor_acelerometro">SENSOR ACELEROMETRO: </string>
+    <string name="sensor_proximidade">SENSOR PROXIMIDADE: </string>
+    <string name="sensor_luminosidade">SENSOR LUMINOSIDADE: </string>
+    <string name="umidade">UMIDADE(%): </string>
+    <string name="temperatura">TEMPERATURA(ºC): </string>
+    <string name="mensagem_principal">Os dados dos sensores de seu celular estão sendo enviados para o Web Service</string>
+    <string name="iniciaSensores">Iniciar todos os sensores</string>
 </resources>

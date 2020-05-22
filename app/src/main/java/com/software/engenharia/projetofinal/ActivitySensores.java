@@ -15,40 +15,55 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
+import java.io.IOException;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Random;
 
 public class ActivitySensores extends AppCompatActivity {
+    TextView txtLongitude, txtLatitude, txtUmidade, txtTemperatura, txtLuminos, txtProx;
+    Button btIniciaSensores;
     SensorManager mSensorManager;
-    Sensor mLuz, mProx, mAcelerometro, mUmidade, mTemperatura;
+    Sensor mLuz, mProx, mUmidade, mTemperatura;
     private static final int PERMISSION_REQUEST_CODE = 1;
-    private Location location;
+    private Location localizacao;
     private LocationManager locationManager;
-    double latitude, longitude;
+    EntidadeSensores dadosSensores;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sensores);
 
+        dadosSensores = new EntidadeSensores();
+
+        btIniciaSensores = findViewById(R.id.btnIniciaSensor);
+        txtLatitude = findViewById(R.id.txtLatitude);
+        txtLongitude = findViewById(R.id.txtLongitude);
+        txtLuminos = findViewById(R.id.txtLuminos);
+        txtProx = findViewById(R.id.txtProx);
+        txtTemperatura = findViewById(R.id.txtTemperatura);
+        txtUmidade = findViewById(R.id.txtUmidade);
+
         LinearLayout ll = findViewById(R.id.layout);
         //ll.setBackgroundColor(getResources().getColor(R.color.));
 
-        Log.i("Mensagem", "Ola mundo");
         pedirPermissao();
         mSensorManager = (SensorManager) getSystemService(SENSOR_SERVICE);
+
     }
 
-    public void LUMINOSIDADE(View view) {
+    public void LUMINOSIDADE() {
         mLuz = mSensorManager.getDefaultSensor(Sensor.TYPE_LIGHT);
-        mSensorManager.registerListener(new LuzSensor(), mLuz, SensorManager.SENSOR_DELAY_FASTEST);
+        mSensorManager.registerListener(new LuzSensor(), mLuz, SensorManager.SENSOR_DELAY_NORMAL);
     }
 
-    public void LOCALIZAR(View view) {
+    public void LOCALIZAR() {
 
         pedirPermissao();
 
@@ -66,7 +81,7 @@ public class ActivitySensores extends AppCompatActivity {
         }
     }
 
-    public void UMIDADETEMPERATURA(View view) {
+    public void UMIDADETEMPERATURA() {
         mUmidade= mSensorManager.getDefaultSensor(Sensor.TYPE_RELATIVE_HUMIDITY);
         mTemperatura = mSensorManager.getDefaultSensor(Sensor.TYPE_AMBIENT_TEMPERATURE);
         if(mUmidade != null){
@@ -86,23 +101,26 @@ public class ActivitySensores extends AppCompatActivity {
 
     private void simulaSensorTemperatura() {
         Random aleatorio = new Random();
-        int valor = aleatorio.nextInt((50 - (-30)) + 1) + (-30);
-        System.out.println("Número gerado: " + valor);
+        float valor = aleatorio.nextInt((50 - (-30)) + 1) + (-30);
+        dadosSensores.setTemperatura(valor);
+        txtTemperatura.setText(valor+" (Simulando Sensor)");
     }
 
     private void simulaSensorUmidade() {
         Random aleatorio = new Random();
-        int valor = aleatorio.nextInt(30) + 1;
-        System.out.println("Número gerado: " + valor);
-    }
+        float valor = aleatorio.nextInt(30) + 1;
+        dadosSensores.setUmidade(valor);
 
+        txtUmidade.setText(valor+" (Simulando Sensor)");
+    }
 
     class UmidadeSensor implements SensorEventListener{
 
         @Override
         public void onSensorChanged(SensorEvent event) {
             float vl = event.values[0];
-            Log.i("Sensores","Umidade: "+vl);
+            dadosSensores.setUmidade(vl);
+            txtUmidade.setText(vl+"");
         }
 
         @Override
@@ -115,7 +133,8 @@ public class ActivitySensores extends AppCompatActivity {
         @Override
         public void onSensorChanged(SensorEvent event) {
             float vl = event.values[0];
-            Log.i("Sensores","Temperatura: "+vl +"ºC");
+            dadosSensores.setTemperatura(vl);
+            txtTemperatura.setText(vl+"");
         }
 
         @Override
@@ -130,11 +149,12 @@ public class ActivitySensores extends AppCompatActivity {
 
         public void onSensorChanged(SensorEvent event) {
             float vl = event.values[0];
-            Log.i("Sensores","Luminosidade: "+vl);
+            dadosSensores.setLuminosidade(vl);
+            txtLuminos.setText(vl+"");
         }
     }
 
-    public void PROXIMIDADE(View view) {
+    public void PROXIMIDADE() {
         mProx = mSensorManager.getDefaultSensor(Sensor.TYPE_PROXIMITY);
         mSensorManager.registerListener(new ProxSensor(), mProx, SensorManager.SENSOR_DELAY_FASTEST);
     }
@@ -142,8 +162,8 @@ public class ActivitySensores extends AppCompatActivity {
         public void onAccuracyChanged(Sensor sensor, int accuracy) {}
         public void onSensorChanged(SensorEvent event) {
             float vl = event.values[0];
-            Log.i("Sensores","Proximidade: "+vl);
-
+            dadosSensores.setProximidade(vl);
+            txtProx.setText(vl+"");
         }
     }
 
@@ -164,11 +184,19 @@ public class ActivitySensores extends AppCompatActivity {
 
     public void configurarServico(){
         try {
-            LocationManager locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+            final LocationManager locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
             LocationListener locationListener = new LocationListener() {
                 @Override
                 public void onLocationChanged(Location location) {
-                    atualizar(location);
+                    dadosSensores.setLocation(location);
+                    localizacao = location;
+                    if(location != null){
+                        txtLatitude.setText(location.getLatitude()+"");
+                        txtLongitude.setText(location.getLongitude()+"");
+
+                        UMIDADETEMPERATURA();
+                    }
+
                 }
 
                 @Override
@@ -186,12 +214,32 @@ public class ActivitySensores extends AppCompatActivity {
         }
     }
 
-    public void atualizar(Location location){
-        Double latPoint = location.getLatitude();
-        Double longPoint = location.getLongitude();
+    public void INICIASENSORES(View view) {
+        if(localizacao!=null)
+        {
+            btIniciaSensores.setClickable(false);
+            UMIDADETEMPERATURA();
+            LUMINOSIDADE();
+            PROXIMIDADE();
+            LOCALIZAR();
 
-        Log.i("Sensores", "lat "+latPoint);
-        Log.i("Sensores", "lon "+longPoint);
+            dadosSensores.EnviaWebService();
 
+            new Thread(new Runnable() {
+                public void run() {
+                    while(true){
+
+                        dadosSensores.EnviaWebService();
+                        try {
+                            Thread.sleep(3000);
+                        } catch (InterruptedException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                }
+            }).start();
+        }else Toast.makeText(this, "Ainda carregando, tente novamente!!!", Toast.LENGTH_SHORT).show();
     }
+
+
 }

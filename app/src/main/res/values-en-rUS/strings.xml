@@ -1,11 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">projetoFinal</string>
-    <string name="sensor_gravidade">GRAVITY SENSOR</string>
-    <string name="localizacao">LOCATION</string>
     <string name="sensor_luminosidade">"LUMINOSITY SENSOR "</string>
-    <string name="listar_sensores">SENSORS LIST</string>
     <string name="sensor_acelerometro">"ACCELEROMETER SENSOR "</string>
     <string name="sensor_proximidade">"PROXIMITY SENSOR "</string>
-    <string name="umidade">"HUMIDITY AND TEMPERATURE "</string>
+    <string name="umidade">"HUMIDITY (%): "</string>
+    <string name="latitude">"LATITUDE: "</string>
+    <string name="logitude">"LONGITUDE: "</string>
+    <string name="temperatura">TEMPERATURE(ºC):</string>
+    <string name="mensagem_principal">"The data from your cell phone sensors is being sent to a Web Service "</string>
+    <string name="iniciaSensores">Start all sensors</string>
 </resources>
