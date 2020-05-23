@@ -34,7 +34,7 @@ public class ActivitySensores extends AppCompatActivity {
     private Location localizacao;
     private LocationManager locationManager;
     EntidadeSensores dadosSensores;
-
+    HttpConection httpConection;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -229,7 +229,7 @@ public class ActivitySensores extends AppCompatActivity {
                 public void run() {
                     while(true){
 
-                        dadosSensores.EnviaWebService();
+                        Object[] obj =  dadosSensores.EnviaWebService();
                         try {
                             Thread.sleep(3000);
                         } catch (InterruptedException e) {
@@ -240,6 +240,5 @@ public class ActivitySensores extends AppCompatActivity {
             }).start();
         }else Toast.makeText(this, "Ainda carregando, tente novamente!!!", Toast.LENGTH_SHORT).show();
     }
-
 
 }

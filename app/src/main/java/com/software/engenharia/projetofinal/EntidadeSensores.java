@@ -2,6 +2,14 @@ package com.software.engenharia.projetofinal;
 
 import android.location.Location;
 import android.util.Log;
+import android.widget.ArrayAdapter;
+import android.widget.ListView;
+
+import java.lang.reflect.Array;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Objects;
+
 
 public class EntidadeSensores {
     private Location location;
@@ -9,6 +17,7 @@ public class EntidadeSensores {
     private float temperatura;
     private float luminosidade;
     private float proximidade;
+
 
     public EntidadeSensores() {
         this.location = null;
@@ -61,16 +70,23 @@ public class EntidadeSensores {
         this.proximidade = proximidade;
     }
 
-    public void EnviaWebService(){
+    public Object[] EnviaWebService(){
         //Método que enviará os dados para o webservice
         //TESTE
-        Log.i("Mensagem", "TESTANDO");
-        Log.i("Mensagem", "temperatura " + temperatura + "ºC");
-        Log.i("Mensagem", "UMIDADE " + umidade + "%");
-        Log.i("Mensagem", "LUMINOSIDADE " + luminosidade + " lumens");
-        Log.i("Mensagem", "PROXIMIDADE " + proximidade);
-        Log.i("Mensagem", "LOCALIZAÇÃO: latitude " + location.getLatitude() + " Longitude: " + location.getLongitude());
+        Object[] object = new Object[6];
+        object[0] = temperatura;
+        object[1] = umidade;
+        object[2] = luminosidade;
+        object[3] = proximidade;
+        object[4] = location.getLongitude();
+        object[5] = location.getLongitude();
 
+        //ArrayList<Float> itens = dadosTotais();
+        Log.d("id", String.valueOf(object));
 
+        return object;
     }
+
+
+
 }
