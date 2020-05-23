@@ -18,7 +18,8 @@
 
 #### Recursos utilizados:
 
-> --
+> O programa foi construido no AndroidStudio e teve coomo linguagem basica o Java, o WebService foi criado pelo
+
 
 
 
